@@ -1,15 +1,23 @@
 #include "CMapPtrToPtr.h"
 
 
-CMapPtrToPtr::CMapPtrToPtr(unsigned int memMax)
+
+/************************************************************************
+	Date:		2016/4/13  
+	Time:		14:30
+	Author:		Mr.Z
+	
+	Purpose:	CMapPtrToPtr
+*************************************************************************/
+CMapPtrToPtr::CMapPtrToPtr(unsigned int max)
 {
 	m_pHash = 0;
 	m_uiHashMax = 17;
+	m_uiCount = 0;
 
 	m_pMem = 0;
-	m_uiMax = memMax;
+	m_uiMax = max;
 	pFreeList = 0;
-	m_uiCount = 0;
 
 	InitHash();
 }
@@ -79,9 +87,6 @@ CMapPtrToPtr::CElem* CMapPtrToPtr::NewElem()
 
 CMapPtrToPtr::CElem* CMapPtrToPtr::GetElem(void* key)
 {
-	if (m_pHash == 0)
-		InitHash();
-
 	unsigned int hash = HASH_ADDRESS(key) % m_uiHashMax;
 	for (CElem* pElem = m_pHash[hash]; pElem != 0; pElem = pElem->pNext)
 	{
